@@ -7,6 +7,13 @@ export type RendererState = {
   params: Params;
 };
 
+type SharedRendererResources = {
+  device: GPUDevice;
+  format: GPUTextureFormat;
+  pipeline: GPURenderPipeline;
+  sampler: GPUSampler;
+};
+
 const DEBUG_MODE_MAP: Record<DebugMode, number> = {
   final: 0,
   uv: 1,
@@ -20,6 +27,8 @@ const DEBUG_MODE_MAP: Record<DebugMode, number> = {
 const UNIFORM_FLOATS = 20;
 
 export class HalftoneRenderer {
+  static #sharedResourcesPromise: Promise<SharedRendererResources> | null = null;
+
   readonly #canvas: HTMLCanvasElement;
   readonly #device: GPUDevice;
   readonly #context: GPUCanvasContext;
@@ -42,56 +51,18 @@ export class HalftoneRenderer {
     initialState: RendererState,
     source: SourceImage
   ): Promise<HalftoneRenderer> {
-    if (!("gpu" in navigator)) {
-      throw new Error("This browser does not expose navigator.gpu. Use a WebGPU-capable browser such as Chrome or Edge.");
-    }
-
-    const adapter = await navigator.gpu.requestAdapter();
-    if (!adapter) {
-      throw new Error("WebGPU adapter request failed. A compatible GPU adapter was not found.");
-    }
-
-    const device = await adapter.requestDevice();
+    const shared = await HalftoneRenderer.getSharedResources();
     const context = canvas.getContext("webgpu");
     if (!context) {
       throw new Error("The canvas could not create a WebGPU context.");
     }
-
-    const format = navigator.gpu.getPreferredCanvasFormat();
     context.configure({
-      device,
-      format,
+      device: shared.device,
+      format: shared.format,
       alphaMode: "premultiplied"
     });
 
-    const shaderModule = device.createShaderModule({
-      label: "halftone-shader",
-      code: halftoneShader
-    });
-
-    const pipeline = device.createRenderPipeline({
-      label: "halftone-pipeline",
-      layout: "auto",
-      vertex: {
-        module: shaderModule,
-        entryPoint: "vertex_main"
-      },
-      fragment: {
-        module: shaderModule,
-        entryPoint: "fragment_main",
-        targets: [{ format }]
-      },
-      primitive: {
-        topology: "triangle-list"
-      }
-    });
-
-    const sampler = device.createSampler({
-      magFilter: "linear",
-      minFilter: "linear"
-    });
-
-    const uniformBuffer = device.createBuffer({
+    const uniformBuffer = shared.device.createBuffer({
       label: "scene-uniforms",
       size: UNIFORM_FLOATS * Float32Array.BYTES_PER_ELEMENT,
       usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
@@ -99,11 +70,11 @@ export class HalftoneRenderer {
 
     const renderer = new HalftoneRenderer(
       canvas,
-      device,
+      shared.device,
       context,
-      format,
-      pipeline,
-      sampler,
+      shared.format,
+      shared.pipeline,
+      shared.sampler,
       uniformBuffer,
       initialState
     );
@@ -131,6 +102,59 @@ export class HalftoneRenderer {
     this.#sampler = sampler;
     this.#uniformBuffer = uniformBuffer;
     this.#state = initialState;
+  }
+
+  private static async getSharedResources(): Promise<SharedRendererResources> {
+    if (!HalftoneRenderer.#sharedResourcesPromise) {
+      HalftoneRenderer.#sharedResourcesPromise = (async () => {
+        if (!("gpu" in navigator)) {
+          throw new Error("This browser does not expose navigator.gpu. Use a WebGPU-capable browser such as Chrome or Edge.");
+        }
+
+        const adapter = await navigator.gpu.requestAdapter();
+        if (!adapter) {
+          throw new Error("WebGPU adapter request failed. A compatible GPU adapter was not found.");
+        }
+
+        const device = await adapter.requestDevice();
+        const format = navigator.gpu.getPreferredCanvasFormat();
+        const shaderModule = device.createShaderModule({
+          label: "halftone-shader",
+          code: halftoneShader
+        });
+
+        const pipeline = device.createRenderPipeline({
+          label: "halftone-pipeline",
+          layout: "auto",
+          vertex: {
+            module: shaderModule,
+            entryPoint: "vertex_main"
+          },
+          fragment: {
+            module: shaderModule,
+            entryPoint: "fragment_main",
+            targets: [{ format }]
+          },
+          primitive: {
+            topology: "triangle-list"
+          }
+        });
+
+        const sampler = device.createSampler({
+          magFilter: "linear",
+          minFilter: "linear"
+        });
+
+        return {
+          device,
+          format,
+          pipeline,
+          sampler
+        };
+      })();
+    }
+
+    return HalftoneRenderer.#sharedResourcesPromise;
   }
 
   update(nextState: RendererState): void {

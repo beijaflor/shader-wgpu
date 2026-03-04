@@ -21,43 +21,36 @@
     </header>
 
     <main>
-      <section class="panel-grid study-toolbar">
-        <label>
-          Stage
-          <select id="sample-select"></select>
-        </label>
-        <label>
-          Debug View
-          <select id="debug-select"></select>
-        </label>
-        <label>
-          Source Image
-          <select id="source-select"></select>
-        </label>
-        <label>
-          Preset
-          <select id="preset-select"></select>
-        </label>
+      <section class="study-card">
+        <p class="eyebrow">Linear Study Document</p>
+        <h2>From Source Image To Imperfect Halftone</h2>
+        <p>
+          This page is intentionally linear. Each stage is fixed in the document,
+          top to bottom, so you can read the halftone construction as a study
+          sequence rather than operate it like a demo control panel.
+        </p>
+        <p id="page-status" class="status">
+          Preparing the static WebGPU study canvases.
+        </p>
       </section>
 
-      <section class="study-layout">
+      <div id="study-sections" class="study-sections"></div>
+    </main>
+
+    <template id="sample-template">
+      <section class="study-layout study-stage">
         <div class="study-column study-left">
           <article class="study-card">
-            <p class="eyebrow">Live Stage</p>
-            <h2 id="sample-title">Loading stage</h2>
-            <p id="sample-description">
-              Loading WebGPU and preparing the first sample.
-            </p>
-            <p id="status" class="status">
-              WebGPU is required. If initialization fails, the status will explain
-              why.
-            </p>
+            <p class="eyebrow stage-kicker">Live Stage</p>
+            <h2 class="sample-title"></h2>
+            <p class="sample-description"></p>
+            <p class="sample-meta status"></p>
           </article>
 
           <article class="study-card">
             <div class="canvas-shell">
               <canvas
-                id="halftone-canvas"
+                class="sample-canvas"
                 width="1280"
                 height="720"
                 aria-label="2D halftone study canvas"
@@ -67,34 +60,30 @@
 
           <article class="study-card">
             <h3>Explanation</h3>
-            <div id="sample-notes" class="notes"></div>
+            <div class="sample-notes notes"></div>
           </article>
 
           <article class="study-card">
-            <h3>Controls</h3>
-            <p class="help-copy">
-              Each stage exposes only the controls needed to understand that step of
-              the halftone construction.
-            </p>
-            <form id="controls-form" class="controls-panel"></form>
+            <h3>Fixed Parameters</h3>
+            <div class="sample-params parameter-list"></div>
           </article>
         </div>
 
         <aside class="study-column study-right">
           <article class="study-card">
             <p class="eyebrow">Corresponding Code</p>
-            <h3 id="code-title">Shader excerpt</h3>
-            <pre class="code-panel"><code id="sample-code"></code></pre>
+            <h3 class="code-title"></h3>
+            <pre class="code-panel"><code class="sample-code"></code></pre>
           </article>
 
           <article class="study-card">
             <p class="eyebrow">Study Notes</p>
             <h3>Complementary Notes</h3>
-            <div id="sample-aside-notes" class="notes"></div>
+            <div class="sample-aside-notes notes"></div>
           </article>
         </aside>
       </section>
-    </main>
+    </template>
 
     <footer>
       <p>
