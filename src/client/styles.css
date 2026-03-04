@@ -1,7 +1,8 @@
 :root {
   --page-max-width: 1440px;
-  --canvas-height: min(72vh, 760px);
+  --canvas-height: min(46vh, 520px);
   --panel-gap: 1rem;
+  --stage-gap: 1.25rem;
   --accent-ink: #1d4d4f;
   --paper-shadow: rgba(24, 34, 34, 0.16);
   --code-bg: #182327;
@@ -10,6 +11,7 @@
 
 body {
   max-width: var(--page-max-width);
+  margin-inline: auto;
 }
 
 header,
@@ -19,50 +21,30 @@ footer {
 
 main {
   display: grid;
-  gap: 1.5rem;
-}
-
-section {
-  padding: 1rem 1.1rem 1.2rem;
-  border: 1px solid color-mix(in srgb, var(--muted-border-color) 70%, transparent);
-  border-radius: 1rem;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(250, 247, 240, 0.92)),
-    radial-gradient(circle at top left, rgba(29, 77, 79, 0.07), transparent 40%);
-  box-shadow: 0 18px 40px -30px var(--paper-shadow);
-}
-
-.panel-grid,
-.controls-panel,
-.study-layout,
-.study-column {
-  display: grid;
-  gap: var(--panel-gap);
-}
-
-.panel-grid {
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
 }
 
 .study-layout {
-  grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.9fr);
+  display: grid;
+  gap: var(--stage-gap);
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
   align-items: start;
 }
 
 .study-sections {
   display: grid;
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
 .study-stage {
-  padding: 0;
-  border: 0;
-  background: transparent;
-  box-shadow: none;
+  min-width: 0;
 }
 
 .study-column {
+  display: grid;
+  gap: var(--panel-gap);
   align-content: start;
+  min-width: 0;
 }
 
 .study-card {
@@ -75,6 +57,10 @@ section {
   box-shadow: 0 18px 40px -30px var(--paper-shadow);
 }
 
+.intro-card {
+  margin-bottom: 0.25rem;
+}
+
 .eyebrow {
   margin-bottom: 0.4rem;
   color: color-mix(in srgb, var(--muted-color) 72%, var(--accent-ink));
@@ -83,23 +69,9 @@ section {
   font-size: 0.74rem;
 }
 
-.controls-panel {
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-
-.controls-panel label {
-  display: grid;
-  gap: 0.45rem;
-}
-
-.control-value {
-  font-size: 0.82rem;
-  color: color-mix(in srgb, var(--muted-color) 72%, var(--accent-ink));
-}
-
 .canvas-shell {
   position: relative;
-  min-height: 340px;
+  min-height: 260px;
   height: var(--canvas-height);
   border-radius: 1rem;
   overflow: hidden;
@@ -108,14 +80,13 @@ section {
     linear-gradient(135deg, rgba(234, 226, 209, 0.9), rgba(250, 247, 240, 0.95));
 }
 
-#halftone-canvas {
+.sample-canvas {
   display: block;
   width: 100%;
   height: 100%;
 }
 
-.status,
-.help-copy {
+.status {
   color: color-mix(in srgb, var(--muted-color) 82%, var(--accent-ink));
 }
 
@@ -159,7 +130,8 @@ section {
   padding: 1rem;
   border-radius: 0.85rem;
   overflow: auto;
-  max-height: 72vh;
+  min-width: 0;
+  max-height: 34rem;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
     var(--code-bg);
@@ -178,14 +150,20 @@ section {
   body {
     padding-inline: 0.85rem;
   }
-
-  section {
-    padding-inline: 0.9rem;
-  }
 }
 
 @media (max-width: 980px) {
   .study-layout {
     grid-template-columns: 1fr;
+  }
+
+  .code-panel {
+    max-height: none;
+  }
+}
+
+@media (min-width: 981px) {
+  .study-right {
+    padding-top: 0.15rem;
   }
 }
