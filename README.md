@@ -5,6 +5,7 @@ This repository is a study-and-rebuild project for Maxime Heckel's article, [Sha
 The goal is not just to "port the demo." The goal is to understand the article well enough to re-implement its ideas with WebGPU, isolate the important shader concepts, and build a reusable halftone playground that makes the tradeoffs visible.
 
 Stack decisions live in [STACK.md](/Users/shootani/Dropbox/github/shader-wgpu/STACK.md).
+The step-by-step learning checklist lives in [TASKS.md](/Users/shootani/Dropbox/github/shader-wgpu/TASKS.md).
 
 ## Current Status
 
