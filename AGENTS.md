@@ -20,6 +20,7 @@ This repository is set up to work cleanly with Codex and other coding agents.
 ## Task Completion Commit Rule
 
 - When a requested task is complete and the repository is in a coherent state, stage the relevant files and create a commit unless the user explicitly said not to commit.
+- After creating that commit, push the current branch to its configured upstream remote unless the user explicitly said not to push or there is no upstream configured.
 - Do not auto-commit partial work, exploratory edits, or changes with known unresolved failures.
 - Before committing, verify the smallest relevant checks that can reasonably run for the task.
 - If a task finishes with unverified areas, mention them in the handoff before or alongside the commit summary.
@@ -38,7 +39,8 @@ This repository is set up to work cleanly with Codex and other coding agents.
 2. Make the minimal change that solves the task.
 3. Run relevant checks or tests.
 4. Commit the completed task if the change is coherent and the user has not opted out.
-5. Summarize the result, including any unverified areas.
+5. Push the branch if an upstream remote is configured and the user has not opted out.
+6. Summarize the result, including any unverified areas.
 
 ## Repository Notes
 
