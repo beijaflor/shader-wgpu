@@ -17,6 +17,13 @@ This repository is set up to work cleanly with Codex and other coding agents.
 - Commit messages should describe the concrete change, not the process.
 - If a change is risky or partial, stop before committing and explain the blocker.
 
+## Task Completion Commit Rule
+
+- When a requested task is complete and the repository is in a coherent state, stage the relevant files and create a commit unless the user explicitly said not to commit.
+- Do not auto-commit partial work, exploratory edits, or changes with known unresolved failures.
+- Before committing, verify the smallest relevant checks that can reasonably run for the task.
+- If a task finishes with unverified areas, mention them in the handoff before or alongside the commit summary.
+
 ## Test Awareness
 
 - Treat tests as part of the task, not an optional follow-up.
@@ -30,7 +37,8 @@ This repository is set up to work cleanly with Codex and other coding agents.
 1. Inspect the current state before making assumptions.
 2. Make the minimal change that solves the task.
 3. Run relevant checks or tests.
-4. Summarize the result, including any unverified areas.
+4. Commit the completed task if the change is coherent and the user has not opted out.
+5. Summarize the result, including any unverified areas.
 
 ## Repository Notes
 
