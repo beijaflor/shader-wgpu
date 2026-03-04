@@ -32,8 +32,12 @@ function requiredElement<T extends Element>(selector: string): T {
 
 const canvas = requiredElement<HTMLCanvasElement>("#halftone-canvas");
 const status = requiredElement<HTMLParagraphElement>("#status");
+const sampleTitle = requiredElement<HTMLHeadingElement>("#sample-title");
 const sampleDescription = requiredElement<HTMLParagraphElement>("#sample-description");
 const sampleNotes = requiredElement<HTMLDivElement>("#sample-notes");
+const codeTitle = requiredElement<HTMLHeadingElement>("#code-title");
+const sampleCode = requiredElement<HTMLElement>("#sample-code");
+const sampleAsideNotes = requiredElement<HTMLDivElement>("#sample-aside-notes");
 const sampleSelect = requiredElement<HTMLSelectElement>("#sample-select");
 const debugSelect = requiredElement<HTMLSelectElement>("#debug-select");
 const sourceSelect = requiredElement<HTMLSelectElement>("#source-select");
@@ -65,6 +69,7 @@ function createStateSnapshot(): RendererState {
 }
 
 function renderSampleNotes(sample: SampleDefinition): void {
+  sampleTitle.textContent = sample.title;
   sampleDescription.textContent = sample.description;
   sampleNotes.replaceChildren(
     ...sample.notes.map((note, index) => {
@@ -72,6 +77,20 @@ function renderSampleNotes(sample: SampleDefinition): void {
       const heading = document.createElement("h3");
       const paragraph = document.createElement("p");
       heading.textContent = index === 0 ? "Focus" : `Observation ${index}`;
+      paragraph.textContent = note;
+      article.append(heading, paragraph);
+      return article;
+    })
+  );
+
+  codeTitle.textContent = sample.codeTitle;
+  sampleCode.textContent = sample.codeSnippet;
+  sampleAsideNotes.replaceChildren(
+    ...sample.asideNotes.map((note, index) => {
+      const article = document.createElement("article");
+      const heading = document.createElement("h3");
+      const paragraph = document.createElement("p");
+      heading.textContent = index === 0 ? "Why it matters" : `Study note ${index}`;
       paragraph.textContent = note;
       article.append(heading, paragraph);
       return article;

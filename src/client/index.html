@@ -21,59 +21,78 @@
     </header>
 
     <main>
-      <section>
-        <h2>Study Flow</h2>
-        <p id="sample-description">
-          Loading WebGPU and preparing the first sample.
-        </p>
-        <div class="panel-grid">
-          <label>
-            Sample
-            <select id="sample-select"></select>
-          </label>
-          <label>
-            Debug View
-            <select id="debug-select"></select>
-          </label>
-          <label>
-            Source Image
-            <select id="source-select"></select>
-          </label>
-          <label>
-            Preset
-            <select id="preset-select"></select>
-          </label>
+      <section class="panel-grid study-toolbar">
+        <label>
+          Stage
+          <select id="sample-select"></select>
+        </label>
+        <label>
+          Debug View
+          <select id="debug-select"></select>
+        </label>
+        <label>
+          Source Image
+          <select id="source-select"></select>
+        </label>
+        <label>
+          Preset
+          <select id="preset-select"></select>
+        </label>
+      </section>
+
+      <section class="study-layout">
+        <div class="study-column study-left">
+          <article class="study-card">
+            <p class="eyebrow">Live Stage</p>
+            <h2 id="sample-title">Loading stage</h2>
+            <p id="sample-description">
+              Loading WebGPU and preparing the first sample.
+            </p>
+            <p id="status" class="status">
+              WebGPU is required. If initialization fails, the status will explain
+              why.
+            </p>
+          </article>
+
+          <article class="study-card">
+            <div class="canvas-shell">
+              <canvas
+                id="halftone-canvas"
+                width="1280"
+                height="720"
+                aria-label="2D halftone study canvas"
+              ></canvas>
+            </div>
+          </article>
+
+          <article class="study-card">
+            <h3>Explanation</h3>
+            <div id="sample-notes" class="notes"></div>
+          </article>
+
+          <article class="study-card">
+            <h3>Controls</h3>
+            <p class="help-copy">
+              Each stage exposes only the controls needed to understand that step of
+              the halftone construction.
+            </p>
+            <form id="controls-form" class="controls-panel"></form>
+          </article>
         </div>
-      </section>
 
-      <section>
-        <h2>Canvas</h2>
-        <p id="status" class="status">
-          WebGPU is required. If initialization fails, the status will explain
-          why.
-        </p>
-        <div class="canvas-shell">
-          <canvas
-            id="halftone-canvas"
-            width="1280"
-            height="720"
-            aria-label="2D halftone study canvas"
-          ></canvas>
-        </div>
-      </section>
+        <aside class="study-column study-right">
+          <article class="study-card">
+            <p class="eyebrow">Corresponding Code</p>
+            <h3 id="code-title">Shader excerpt</h3>
+            <pre class="code-panel"><code id="sample-code"></code></pre>
+          </article>
 
-      <section>
-        <h2>Controls</h2>
-        <p class="help-copy">
-          Each stage exposes only the controls needed to understand that step of
-          the halftone construction.
-        </p>
-        <form id="controls-form" class="controls-panel"></form>
-      </section>
-
-      <section>
-        <h2>What To Look For</h2>
-        <div id="sample-notes" class="notes"></div>
+          <article class="study-card">
+            <p class="eyebrow">Study Notes</p>
+            <h3>Complementary Notes</h3>
+            <div id="sample-aside-notes" class="notes"></div>
+          </article>
+        </aside>
       </section>
     </main>
 
