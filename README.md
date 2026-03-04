@@ -6,6 +6,41 @@ The goal is not just to "port the demo." The goal is to understand the article w
 
 Stack decisions live in [STACK.md](/Users/shootani/Dropbox/github/shader-wgpu/STACK.md).
 
+## Current Status
+
+The repository now includes a working first scaffold:
+
+- static WebGPU study page,
+- minimal Hono server,
+- source, luminance, grid, dot-field, grayscale halftone, corrected halftone, color halftone, imperfection, and comparison stages,
+- two built-in source images for 2D halftone inspection.
+
+## Local Commands
+
+Install dependencies:
+
+```sh
+npm install
+```
+
+Type-check:
+
+```sh
+npm run typecheck
+```
+
+Build client and server:
+
+```sh
+npm run build
+```
+
+Run the built server:
+
+```sh
+npm start
+```
+
 ## Project Goal
 
 Build a small WebGPU application that recreates the article's core halftone samples and exposes the underlying shader logic clearly enough that each sample can be studied, compared, and extended.

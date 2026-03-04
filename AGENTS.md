@@ -44,3 +44,4 @@ This repository is set up to work cleanly with Codex and other coding agents.
 
 - This repository is currently minimal and may be scaffolded incrementally.
 - Add project-specific build, test, and runtime instructions to this file as the codebase grows.
+- In this Codex execution environment, `npm` via `~/.proto/shims/npm` crashes before running. Prefer the explicit Node 24.11.0 binary path when the agent needs to install packages or run Node-based checks.

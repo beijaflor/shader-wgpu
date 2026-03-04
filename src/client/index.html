@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>shader-wgpu</title>
+    <link rel="stylesheet" href="__APP_CSS__" />
+  </head>
+  <body>
+    <header>
+      <h1>shader-wgpu</h1>
+      <p>
+        A focused WebGPU study surface for 2D halftone shaders inspired by
+        <a href="https://blog.maximeheckel.com/posts/shades-of-halftone/"
+          >Shades of Halftone</a
+        >.
+      </p>
+    </header>
+
+    <main>
+      <section>
+        <h2>Study Flow</h2>
+        <p id="sample-description">
+          Loading WebGPU and preparing the first sample.
+        </p>
+        <div class="panel-grid">
+          <label>
+            Sample
+            <select id="sample-select"></select>
+          </label>
+          <label>
+            Debug View
+            <select id="debug-select"></select>
+          </label>
+          <label>
+            Source Image
+            <select id="source-select"></select>
+          </label>
+          <label>
+            Preset
+            <select id="preset-select"></select>
+          </label>
+        </div>
+      </section>
+
+      <section>
+        <h2>Canvas</h2>
+        <p id="status" class="status">
+          WebGPU is required. If initialization fails, the status will explain
+          why.
+        </p>
+        <div class="canvas-shell">
+          <canvas
+            id="halftone-canvas"
+            width="1280"
+            height="720"
+            aria-label="2D halftone study canvas"
+          ></canvas>
+        </div>
+      </section>
+
+      <section>
+        <h2>Controls</h2>
+        <p class="help-copy">
+          Each stage exposes only the controls needed to understand that step of
+          the halftone construction.
+        </p>
+        <form id="controls-form" class="controls-panel"></form>
+      </section>
+
+      <section>
+        <h2>What To Look For</h2>
+        <div id="sample-notes" class="notes"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Keep the focus on 2D image-space halftone logic: source image,
+        luminance, grid, dots, corrected output, channel screens, and controlled
+        imperfections.
+      </p>
+    </footer>
+
+    <script type="module" src="__APP_JS__"></script>
+  </body>
+</html>
